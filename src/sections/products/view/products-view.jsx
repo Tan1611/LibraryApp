@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -9,27 +9,32 @@ import { products } from 'src/_mock/products';
 
 import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
-import ProductFilters from '../product-filters';
-import ProductCartWidget from '../product-cart-widget';
+import AddProduct from '../product-add-new';
+
 
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
-  const [openFilter, setOpenFilter] = useState(false);
+  // const [openFilter, setOpenFilter] = useState(false);
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
+  // const handleOpenFilter = () => {
+  //   setOpenFilter(true);
+  // };
 
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
+  // const handleCloseFilter = () => {
+  //   setOpenFilter(false);
+  // };
+  // const handleClickAdd = () => {
+  //   console.log('clicked');
+  // }
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 5 }}>
-        Products
-      </Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+        <Typography variant="h4">Library</Typography>
+
+        <AddProduct />
+      </Stack>
 
       <Stack
         direction="row"
@@ -39,11 +44,11 @@ export default function ProductsView() {
         sx={{ mb: 5 }}
       >
         <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-          <ProductFilters
+          {/* <ProductFilters
             openFilter={openFilter}
             onOpenFilter={handleOpenFilter}
             onCloseFilter={handleCloseFilter}
-          />
+          /> */}
 
           <ProductSort />
         </Stack>
@@ -57,7 +62,7 @@ export default function ProductsView() {
         ))}
       </Grid>
 
-      <ProductCartWidget />
+      {/* <ProductCartWidget /> */}
     </Container>
   );
 }

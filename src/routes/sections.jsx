@@ -1,4 +1,6 @@
+/* eslint-disable eqeqeq */
 import { lazy, Suspense } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
@@ -13,6 +15,15 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const infor = {
+    currentUser: useSelector((state) => state.auth.currentUser),
+    currentJson: JSON.parse(localStorage.getItem('user')),
+  };
+  console.log("User", infor.currentUser,"JSON", infor.currentJson);
+  console.log(infor.currentJson === infor.currentUser);
+  // eslint-disable-next-line react/prop-types, react/no-unstable-nested-components
+  const RequireAuth = ({ children }) => (infor.currentJson === infor.currentUser ? children : <Navigate to="/login" />);
+
   const routes = useRoutes([
     {
       element: (
@@ -23,10 +34,39 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, index: true },
-        { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        {
+          element: (
+            <RequireAuth>
+              <IndexPage />
+            </RequireAuth>
+          ),
+          index: true,
+        },
+        {
+          path: 'user',
+          element: (
+            <RequireAuth>
+              <UserPage />
+            </RequireAuth>
+          ),
+          index: true,
+        },
+        {
+          path: 'products',
+          element: (
+            <RequireAuth>
+              <ProductsPage />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: 'blog',
+          element: (
+            <RequireAuth>
+              <BlogPage />
+            </RequireAuth>
+          ),
+        },
       ],
     },
     {

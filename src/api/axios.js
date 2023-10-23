@@ -6,10 +6,10 @@ import {auth} from 'src/firebase';
 
 const getFirebaseToken = async () => {
   const currentUsers = auth.currentUser;
-  if (currentUsers) return currentUsers.getIdToken();
+  if (currentUsers) return currentUsers;
 
   // not logged in
-  const hasRememberedAccount = localStorage.getItem('firebase::rememberedAccount');
+  const hasRememberedAccount = localStorage.getItem('user');
   if (!hasRememberedAccount) return null;
 
   // logged in but current user is not fetched -> wait 10s

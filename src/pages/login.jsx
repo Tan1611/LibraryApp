@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title> Account </title>
+        <title> Account Page </title>
       </Helmet>
 
       <LoginView />

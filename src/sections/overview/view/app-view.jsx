@@ -1,9 +1,11 @@
-/* eslint-disable unused-imports/no-unused-imports */ 
+/* eslint-disable unused-imports/no-unused-imports */
 import { faker } from '@faker-js/faker';
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import {  onAuthStateChanged } from "firebase/auth";
+import { unwrapResult } from '@reduxjs/toolkit';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { ref, get, child, getDatabase } from 'firebase/database';
 
 // import Button from '@mui/material/Button';
@@ -11,8 +13,11 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
-import {auth} from 'src/firebase';
+import { usePathname } from 'src/routes/hooks';
+
+import { auth } from 'src/firebase';
 import userApi from 'src/api/userAPI';
+import { getMe } from 'src/app/userReducer';
 
 import Iconify from 'src/components/iconify';
 
@@ -31,11 +36,13 @@ import AppConversionRates from '../app-conversion-rates';
 
 export default function AppView() {
   const location = useLocation();
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const [data, setData] = useState({
     id: '',
     email: '',
     username: '',
   });
+  const dispatch = useDispatch();
   const handleButtonClick = () => {
     // try {async
     //   const user = await userAPI.getall();
@@ -45,55 +52,14 @@ export default function AppView() {
     // }
     alert('Hello');
   };
-  const getData = () => {
-    const dbRef = ref(getDatabase());
-    if (location.state !== null) {
-      get(child(dbRef, `users/${location.state.uids}`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            setData(snapshot.val());
-            console.log(snapshot.val().email);
-          } else {
-            console.log('No data available');
-          }
-        })
-        .catch((error) => {
-          console.error('>check error: ', error);
-        });
-    }
-  };
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        console.log(">>check: ",auth.currentUser.uid);
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const userList = await userApi.getall();
-
-      console.log(userList);
-    }
-    fetchUsers();
-  })
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
-        Hi, Welcome back 👋
+        Welcome👋👋👋
       </Typography>
+      
+      
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
@@ -110,7 +76,7 @@ export default function AppView() {
             total={1352831}
             color="info"
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-            onClick={() => handleButtonClick()}
+            onClick={handleButtonClick}
           />
         </Grid>
 

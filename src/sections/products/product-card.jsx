@@ -1,20 +1,26 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
+// import Typography from '@mui/material/Typography';
 
+// eslint-disable-next-line unused-imports/no-unused-imports
 import { fCurrency } from 'src/utils/format-number';
 
 import Label from 'src/components/label';
+// eslint-disable-next-line unused-imports/no-unused-imports
+import Iconify from 'src/components/iconify';
 // import { ColorPreview } from 'src/components/color-utils';
 
 // ----------------------------------------------------------------------
 
 export default function ShopProductCard({ product }) {
+  console.log(product);
+  // eslint-disable-next-line no-unused-vars
   const renderStatus = (
     <Label
       variant="filled"
@@ -27,7 +33,7 @@ export default function ShopProductCard({ product }) {
         textTransform: 'uppercase',
       }}
     >
-      {product.status}
+      {/* {product.status} */}
     </Label>
   );
 
@@ -46,27 +52,11 @@ export default function ShopProductCard({ product }) {
     />
   );
 
-  const renderPrice = (
-    <Typography variant="subtitle1">
-      <Typography
-        component="span"
-        variant="body1"
-        sx={{
-          color: 'text.disabled',
-          textDecoration: 'line-through',
-        }}
-      >
-        {product.priceSale && fCurrency(product.priceSale)}
-      </Typography>
-      &nbsp;
-      {fCurrency(product.price)}
-    </Typography>
-  );
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {product.status && renderStatus}
+        {/* {product.status && renderStatus} */}
 
         {renderImg}
       </Box>
@@ -75,11 +65,8 @@ export default function ShopProductCard({ product }) {
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
           {product.name}
         </Link>
-
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {/* <ColorPreview colors={product.colors} /> */}
-          {renderPrice}
-          {/* <Button variant="contained">Buy</Button> */}
+          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill"/>}>Borrow</Button>
         </Stack>
       </Stack>
     </Card>

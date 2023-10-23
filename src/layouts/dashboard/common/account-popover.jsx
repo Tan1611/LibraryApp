@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
-import { signOut } from 'firebase/auth';
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line unused-imports/no-unused-imports
+import { signOut,onAuthStateChanged } from 'firebase/auth';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -12,9 +15,10 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-  
-import { auth } from 'src/firebase';  
+
+import { auth } from 'src/firebase';
 import { account } from 'src/_mock/account';
+import { logout } from "src/app/authReducer";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -36,6 +40,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -48,13 +53,14 @@ export default function AccountPopover() {
   };
 
   const handleLogout = () => {
-    console.log(auth);
-    signOut(auth).then(() => {
-      console.log("ban da dang xuat");
-    }).catch((error) => {
-
-    })
-    navigate('/login');
+        signOut(auth)
+          .then(() => {
+            const a = logout();
+            dispatch(a);
+            console.log('ban da dang xuat');
+            navigate('/login');
+            localStorage.removeItem("user")
+          })
   };
 
   return (
@@ -124,9 +130,9 @@ export default function AccountPopover() {
           onClick={handleLogout}
           sx={{ typography: 'body2', py: 1.5 }}
         >
-            <LogoutOutlinedIcon />
-            <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-              Log out
+          <LogoutOutlinedIcon />
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+            Log out
           </Typography>
         </MenuItem>
       </Popover>

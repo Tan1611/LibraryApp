@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
  
-import {database} from 'src/firebase'
+import {db} from 'src/firebase'
 
 import Iconify from 'src/components/iconify';
 
@@ -38,7 +38,7 @@ export default function AddNewProcduct() {
 
   const addNewProduct = async () => {
     try {
-        const res = await addDoc(collection(database, 'product'),{
+        const res = await addDoc(collection(db, 'product'),{
             name,
             value,
             // img: img,

@@ -2,7 +2,9 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-import { ref, set, getDatabase } from 'firebase/database';
+// eslint-disable-next-line unused-imports/no-unused-imports
+import { doc, setDoc, collection } from 'firebase/firestore';
+// import { ref, set, getDatabase } from 'firebase/database';
 // eslint-disable-next-line unused-imports/no-unused-imports
 import { useState, useEffect, createContext } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -22,18 +24,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { auth } from 'src/firebase';
+import { db, auth } from 'src/firebase';
 import { bgGradient } from 'src/theme/css';
 // eslint-disable-next-line unused-imports/no-unused-imports
-import { login, create } from 'src/app/authReducer';
+import { login } from 'src/app/authReducer';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
-
 export default function LoginView() {
   const theme = useTheme();
-  const db = getDatabase();
+  // const db = getDatabase();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -49,19 +50,19 @@ export default function LoginView() {
   const [password, setPassword] = useState('');
 
   const customizedMiddleware = getDefaultMiddleware({
-    serializableCheck: false
-  })
+    serializableCheck: false,
+  });
 
   const handleSignin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = { ...userCredential.user };
-        console.log(user);
+        // console.log(user);
         const action = login(user);
-        console.log(action);
+        // console.log(action);
         dispatch(action);
-        navigate('/')
+        navigate('/');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -72,15 +73,23 @@ export default function LoginView() {
 
   const hanhandleSignup = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((success) => {
-        set(ref(db, `users/${success.user.uid}`), {
-          username: { username },
-          email: { email },
-          id: success.user.uid,
-        });
+      .then(async (success) => {
+        // set(ref(db, `users/${success.user.uid}`), {
+        //   username: { username },
+        //   email: { email },
+        //   id: success.user.uid,
+        // });
+        try {
+          const docRef = await setDoc(doc(db, `users`, success.user.uid), {
+            username: { username },
+            email: { email },
+          });
+        } catch (e) {
+          console.error('Error adding document: ', e);
+        }
         const action = login(success.user);
         dispatch(action);
-        router.push('/');
+        navigate('/');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -90,11 +99,11 @@ export default function LoginView() {
     // console.log(username, email, password);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // const actions = createContext(init);
     // console.log('check',actions._currentValue.currentUser)
     // console.log("check user: ",init);
-  })
+  });
 
   return (
     <>
@@ -131,10 +140,12 @@ export default function LoginView() {
                   OR
                 </Typography>
               </Divider> */}
-              <Stack sx={{
-                    mt: 3
-                  }}>
-                <Stack spacing={3} >
+              <Stack
+                sx={{
+                  mt: 3,
+                }}
+              >
+                <Stack spacing={3}>
                   <TextField
                     name="email"
                     label="Email address"

@@ -17,12 +17,12 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export default function Router() {
   const infor = {
     currentUser: useSelector((state) => state.auth.currentUser),
-    currentJson: JSON.parse(localStorage.getItem('user')),
+    currentJson: JSON.parse(localStorage.getItem('account')),
   };
-  console.log("User", infor.currentUser,"JSON", infor.currentJson);
-  console.log(infor.currentJson === infor.currentUser);
+
   // eslint-disable-next-line react/prop-types, react/no-unstable-nested-components
-  const RequireAuth = ({ children }) => (infor.currentJson === infor.currentUser ? children : <Navigate to="/login" />);
+  const RequireAuth = ({ children }) =>
+    infor.currentUser === infor.currentJson ? children : <Navigate to="/login" />;
 
   const routes = useRoutes([
     {

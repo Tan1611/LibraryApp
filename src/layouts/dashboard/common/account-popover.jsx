@@ -59,7 +59,6 @@ export default function AccountPopover() {
             dispatch(a);
             console.log('ban da dang xuat');
             navigate('/login');
-            localStorage.removeItem("user")
           })
   };
 

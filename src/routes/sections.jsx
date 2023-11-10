@@ -43,7 +43,7 @@ export default function Router() {
           index: true,
         },
         {
-          path: 'user',
+          path: 'reader',
           element: (
             <RequireAuth>
               <UserPage />

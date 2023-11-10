@@ -19,7 +19,7 @@ import Iconify from 'src/components/iconify';
 // ----------------------------------------------------------------------
 
 export default function ShopProductCard({ product }) {
-  console.log(product);
+  // console.log(product);
   // eslint-disable-next-line no-unused-vars
   const renderStatus = (
     <Label

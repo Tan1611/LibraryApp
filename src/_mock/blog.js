@@ -29,7 +29,7 @@ const POST_TITLES = [
   'How to Animate a SVG with border-image',
 ];
 
-export const posts = [...Array(10)].map((_, index) => ({
+export const posts = [...Array(11)].map((_, index) => ({
   id: faker.string.uuid(),
   cover: `/assets/images/covers/cover_${index + 1}.jpg`,
   title: POST_TITLES[index + 1],

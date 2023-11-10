@@ -10,8 +10,8 @@ import { getFirestore } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDcMoujwqn4fUDa4qygz0imPj8jGM4M2xs',
-  authDomain: 'fir-library-95ef1.firebaseapp.com',
+  apiKey: import.meta.env.VITE_FIREBASE_API,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: 'fir-library-95ef1',
   storageBucket: 'fir-library-95ef1.appspot.com',
   messagingSenderId: '960681663353',
@@ -22,4 +22,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth();
-export const storage = getStorage();
+export const storage = getStorage(app);

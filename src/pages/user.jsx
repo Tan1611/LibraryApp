@@ -8,7 +8,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> User Page </title>
+        <title> Reader </title>
       </Helmet>
 
       <UserView />

@@ -26,7 +26,8 @@ const userSlice = createSlice({
         },
         [getMe.fulfilled]: (state, action) => {
             state.loading = false;
-            state.current = action.payload;}
+            state.current = action.payload;
+        }
     }
 })
 

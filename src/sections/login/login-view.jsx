@@ -74,15 +74,12 @@ export default function LoginView() {
   const hanhandleSignup = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (success) => {
-        // set(ref(db, `users/${success.user.uid}`), {
-        //   username: { username },
-        //   email: { email },
-        //   id: success.user.uid,
-        // });
+        console.log(success);
         try {
           const docRef = await setDoc(doc(db, `users`, success.user.uid), {
-            username: { username },
-            email: { email },
+            username,
+            email,
+            id: success.user.uid,
           });
         } catch (e) {
           console.error('Error adding document: ', e);

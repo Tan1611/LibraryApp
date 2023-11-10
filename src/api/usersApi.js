@@ -1,19 +1,25 @@
-import { auth } from 'src/firebase';
+import { where, query, getDocs, collection } from 'firebase/firestore';
+
+import { db, auth } from 'src/firebase';
 
 const usersApi = {
   getMe: () => {
-    console.log('');
+    console.log();
     return new Promise((resolve, reject) => {
       // reject(new Error('Error!!!'));
       // return '';
-      setTimeout(() => {
+      setTimeout(async () => {
         // eslint-disable-next-line prefer-destructuring
         const currentUser = auth.currentUser;
-        resolve({
-          id: currentUser.uid,
-          displayName: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-          email: currentUser.email,
+        const q = query(collection(db, 'users'), where('id', '==' ,`${currentUser.uid}`));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          resolve({
+                    id: doc.id,
+                    displayName: doc.data().username,
+                    photoURL: doc.data().url,
+                    email: doc.data().email,
+                  });
         });
       }, 500);
     });

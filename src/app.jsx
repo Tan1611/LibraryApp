@@ -7,16 +7,6 @@ import 'src/global.css';
 import ThemeProvider from 'src/theme';
 
 
-// import firebase from 'firebase';
-// // import userAPI from './api/userAPI';
-// // ----------------------------------------------------------------------
-// const config = {
-//   apiKey: import.meta.env.VITE_FIREBASE_API,
-//   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-//   // ...
-// };
-// firebase.initializeApp(config);
-
 export default function App() {
    
 
@@ -25,9 +15,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      {/* <RequireAuth> */}
         <Router />
-      {/* </RequireAuth> */}
     </ThemeProvider>
   );
 }
